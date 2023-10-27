@@ -1,18 +1,7 @@
 # Patient-Tracker 
 
 
-
-Design Idea:
-
-1 doc : Bob, 2 patients : alice, paul.
-
-Patient data is stored in tables using mySQL or MangoDB.
-
-
-
-
-
-Milestones
+# Milestones
 
 0 - discuss with professor about this approach AND CREATE A VIRTUAL DATABASE.
 
@@ -23,3 +12,9 @@ Milestones
 3 - 
 
 4 - enable encryption.
+
+
+# Comments 
+data should be saved in this folder 
+use python to run test.sql 
+ 
