@@ -24,23 +24,14 @@ class GetPaitentData:
         query = f"SELECT * FROM patient WHERE {feild} = %s"
         self.cursor.execute(query, (patientdata,))
         df = pd.DataFrame(self.cursor.fetchall(), columns=[desc[0] for desc in self.cursor.description])
+        #return the df
         print(df)
+
 
 
 
 if __name__ == "__main__":
     # Data for the new patient
-    new_patient_data = {
-        'FIRST_Name': ['Akhilas'],
-        'Last_Name': ['Reddys'],
-        'Email': ['newpatient@.com'],
-        'Mobile': ['4139494787'],
-        'DOB': ['2000-01-15'],
-        'Blood_group': ['O+'],
-        'Gender': ['Male'],
-        'doctor': ['Dr. New']
-    }
-    df = pd.DataFrame(new_patient_data)
     query = GetPaitentData()
     query.getquery('Last_Name', 'Reddy')
  
