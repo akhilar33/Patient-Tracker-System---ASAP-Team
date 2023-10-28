@@ -1,0 +1,79 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+#header-container {
+    background-color: #000000;
+    height: 100px;
+}
+
+
+header h2 {
+    display: inline-block;
+    margin-left: 750px;
+    text-align: center;
+    font-size: 40px;
+    color: #ffffff;
+    font-family: 'Manrope', sans-serif;
+    padding-top: 20px;
+}
+
+#form-container {
+    background-color: #758bd2;
+    height: 860px;
+}
+
+#form {
+    padding-left: 550px;
+    padding-top: 50px;
+}
+
+#doctor-id {
+    margin-left: 123px;
+}
+#doctor-password {
+    margin-left: 50px;
+}
+
+slabel {
+    font-weight: lighter;
+    font-size: 20px;
+    font-family: 'Manrope', ans-serif;
+}
+
+input {
+    padding: 3px 2px 3px 2px;
+    width: 200px;
+    height: 25px;
+    border-style: groove;
+    border-radius: 5px;
+    font-size: 13px;
+    font-family: 'Manrope', sans-serif;
+}
+
+#submit-btn {
+    width: 150px;
+    height: 35px;
+    margin-left: 100px;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 15px;
+    border-radius: 5px;
+    border-style: none;
+    font-family: 'Manrope', sans-serif;
+    margin-top: 50px;
+}
+
+#footer-container {
+    height: 40px;
+    background-color: #000000;
+}
+
+#footer-text {
+    padding-top: 9px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: lighter;
+    font-family: 'Manrope', sans-serif;
+}

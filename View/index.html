@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=2.0">
+    <link rel="stylesheet" href="./styles/doctorLogin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="./scripts/doctorLoginValidation.js"></script>
+    <title>Doctor Login</title>
+</head>
+<body>
+    <header id="header-container">
+        <h2>Login as Doctor</h2>
+    </header>
+    <div id="form-container">
+        <form action="#" onsubmit="return docLoginValidator()" id="form">
+            <label for="doctor-id">Doctor ID:</label>
+            <input type="text" name="doctor-id" id="doctor-id" placeholder="Unique ID" autocomplete="off" required> <br>
+            <span id="doctor-id-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
+            <br>
+            <label for="doctor-password">Doctor Password:</label>
+            <input type="password" name="doctor-password" id="doctor-password" placeholder="Password" autocomplete="off" required> <br>
+            <span id="doctor-pass-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
+            <br>
+            <a href="#"><button type="submit" id="submit-btn">Login</button></a>
+            
+        </form>
+    </div>
+    <footer id="footer-container">
+    </footer>
+</body>
+</html>
