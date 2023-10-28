@@ -13,12 +13,8 @@ class GetPaitentData:
         )
         print("Connection established")
         self.cursor = self.connection.cursor()
-        hostname= "localhost"
-        database= "Patient"
-        username= "root"
-        password= "password"
 
-        self.engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}".format(host=hostname, db=database, user=username, pw=password))
+        
     
     def getquery(self , feild , patientdata):
         query = f"SELECT * FROM patient WHERE {feild} = %s"
@@ -26,6 +22,7 @@ class GetPaitentData:
         df = pd.DataFrame(self.cursor.fetchall(), columns=[desc[0] for desc in self.cursor.description])
         #return the df
         print(df)
+
 
 
 

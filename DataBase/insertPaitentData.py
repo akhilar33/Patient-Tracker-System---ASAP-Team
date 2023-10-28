@@ -1,7 +1,6 @@
 import pandas as pd
 import mysql.connector
 from sqlalchemy import create_engine
-import uuid
 import random
 
 class PatientDataInserter:
@@ -22,13 +21,12 @@ class PatientDataInserter:
 
         self.engine = create_engine("mysql+pymysql://{user}:{pw}@{host}/{db}".format(host=hostname, db=database, user=username, pw=password))
     
-    def generate_patient_id(self):
-        patient_id = str(uuid.uuid4())
-        return patient_id
+
     
     
     def insert_patient_data(self, data):
         try:
+            print(type(data))
 
             # Insert the data into the MySQL database table
             data['patient_id'] = [random.randint(1000,9999) for _ in range(len(data))]

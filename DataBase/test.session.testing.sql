@@ -1,1 +1,1 @@
-DELETE FROM patient;
+SELECT * from doctor_login

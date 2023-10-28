@@ -1,5 +1,5 @@
-document.addEventListener( function () {
-    const loginButton = document.getElementById('submit-btn ');
+document.addEventListener('DOMContentLoaded', function () {
+    const loginButton = document.getElementById('submit-btn');
     const loginForm = document.getElementById('login-form');
 
     loginButton.addEventListener('click', function () {
