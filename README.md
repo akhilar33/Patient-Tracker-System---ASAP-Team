@@ -17,4 +17,7 @@
 # Comments 
 data should be saved in this folder 
 use python to run test.sql 
+delete 
+update 
+test 
  
