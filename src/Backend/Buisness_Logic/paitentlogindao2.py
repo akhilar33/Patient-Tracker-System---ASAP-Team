@@ -44,7 +44,7 @@ class  PatientLoginDAO:
 
 
     def getquery(self , feild , patientdata):
-        query = f"SELECT * FROM PatientLogin WHERE {feild} = %s"
+        query = f"SELECT * FROM patient_login WHERE {feild} = %s"
         self.cursor.execute(query, (patientdata,))
         df = pd.DataFrame(self.cursor.fetchall(), columns=[desc[0] for desc in self.cursor.description])
         #return the df
@@ -52,34 +52,41 @@ class  PatientLoginDAO:
 
     def updated(self, first_name, field_to_update, new_value):
         try: 
-            update_query = f"UPDATE PatientLogin SET {field_to_update} = %s WHERE FIRST_Name = %s"
+            update_query = f"UPDATE patient_login SET {field_to_update} = %s WHERE FIRST_Name = %s"
             self.cursor.execute(update_query, (new_value, first_name))
             self.connection.commit()
         except Exception as e:
             return f"Error: {e}"
     def delete(self, firstName):
         try: 
-            delete_query = "DELETE FROM PatientLogin WHERE FIRST_Name = %s"
+            delete_query = f"SELECT * FROM patient_login WHERE FIRST_Name = %s"
             self.cursor.execute(delete_query, (firstName,))
             self.connection.commit()
             self.cursor.close()
             self.connection.close()
         except Exception as e:
             return f"Error: {e}"
-
-        
+    
+    def paitentValidation(self,username, password):
+        try: 
+            select_query = f"SELECT * FROM patient_login WHERE username = %s AND password = %s"
+            self.cursor.execute(select_query, (username, password))
+            result = self.cursor.fetchone()
+            if result:
+                return True 
+            else: 
+                return False
+        except Exception as e:
+            print(f"Error: {e}")
+            return e
 
 
 if __name__ == "__main__":
     # Data for the new patients
-    patients_data = [
-   { 'FirstName' : 'David', 'LastName': 'Leez' ,'Username': 'PatientUser7', 'Password': 'P@ssw0rd7'}
-    ]
 
 # Create a DataFrame from the patient data
-    patients_df = pd.DataFrame(patients_data)
     patient_dao = PatientLoginDAO()
-    patient_dao.insert_patient_data(patients_df)
+    patient_dao.paitentValidation('PatientUser7', 'P@ssw0rd7')
 
 
 

@@ -1,10 +1,10 @@
-function validateDoctorLogin() {
+function validatePatientLogin() {
     const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const password = document.getElementById('patient-password').value;
 
     const data = { username, password };
 
-    fetch('/validate_doctor_login', {
+    fetch('/validate-patient-login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
