@@ -79,6 +79,15 @@ class  PatientLoginDAO:
         except Exception as e:
             print(f"Error: {e}")
             return e
+    def getPaitentID(self, username):
+        query = f"SELECT PatientID FROM patient_login WHERE username = %s"
+        self.cursor.execute(query, (username,))
+        id = self.cursor.fetchone()
+        return id 
+
+
+
+        
 
 
 if __name__ == "__main__":

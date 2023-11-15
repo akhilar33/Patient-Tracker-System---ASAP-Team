@@ -35,13 +35,13 @@ class  medicalHistoryDAO:
             print(f"Error: {e}")
 
 
-    def getquery(self  , patientdata):
+    def getMedicalData(self , paitentID):
 
-        query = f"SELECT * FROM medical_history WHERE Patient_ID = %s "
-        self.cursor.execute(query, (patientdata,))
+        query = f"SELECT * FROM medical_history WHERE PatientID = %s "
+        self.cursor.execute(query, (paitentID,))
         df = pd.DataFrame(self.cursor.fetchall(), columns=[desc[0] for desc in self.cursor.description])
-        #return the df
-        print(df)
+        return df
+
 
     def updated(self, first_name, field_to_update, new_value):
         try: 
@@ -64,13 +64,13 @@ class  medicalHistoryDAO:
 
 if __name__ == "__main__":
     # Data for medical history
-    medical_data = {
-        'Patient_ID': [1, 2, 3, 4, 5, 6, 7],  # Use the appropriate patient IDs
-        'Date_of_Visit': ['2023-10-01', '2023-10-15', '2023-10-05', '2023-10-12', '2023-10-20', '2023-10-08', '2023-10-25'],
-        'Medical_Condition': ['Fever', 'Headache', 'Injury', 'Cold', 'Flu', 'Allergy', 'Asthma'],
-        'Medication_Prescribed': ['Paracetamol', 'Aspirin', 'Bandage', 'Cough Syrup', 'Antiviral', 'Antihistamine', 'Inhaler']
-    }
-    medical_data = pd.DataFrame(medical_data)
+#    #medical_data = {
+#         'Patient_ID': [1, 2, 3, 4, 5, 6, 7],  # Use the appropriate patient IDs
+#         'Date_of_Visit': ['2023-10-01', '2023-10-15', '2023-10-05', '2023-10-12', '2023-10-20', '2023-10-08', '2023-10-25'],
+#         'Medical_Condition': ['Fever', 'Headache', 'Injury', 'Cold', 'Flu', 'Allergy', 'Asthma'],
+#         'Medication_Prescribed': ['Paracetamol', 'Aspirin', 'Bandage', 'Cough Syrup', 'Antiviral', 'Antihistamine', 'Inhaler']
+#     }
+#     #medical_data = pd.DataFrame(medical_data)
 
     inserter = medicalHistoryDAO()
-    inserter.getquery(4)
+    print(inserter.getMedicalData(1))
