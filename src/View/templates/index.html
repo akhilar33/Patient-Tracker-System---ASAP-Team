@@ -22,21 +22,15 @@
     <div id="designation-info">
         <p><h2 id="text-1">Who are you?</h2></p>
         <div id="designation-container">
-            <a href="./doctorReg.html"><button type="submit" id="btn2">Doctor</button></a>
-            <a href="./patientReg.html"><button type="submit" id="btn3">Patient</button></a>
+            <a ><button onclick="redirectToPage('doctor')" >Doctor</button></a>
+            <a ><button onclick="redirectToPage('patient')" >Patient</button></a>
         </div>
     </div>
-    <div id="additional-info-container">
-        <p id="additional-info-text"><i>Nota Bene: This application is intended to be used for the sole purpose of reducing the efforts of organization individuals,
-            and must not be used for any other use-case scenario. Additionally, please find the relevant software usage documents and other
-            manuals to become acquainted with the functionalities of the entire system. In case you ever feel a need for any kind of technical assistance, please reach out to our website, or have a chat with our 
-            customer-centric technical experts.</i>
-            <br>
-            <p id="msg">THANK YOU FOR USING THE APPLICATION...</p>
-        </p>
-    </div>
-    <footer id="footer-container">
-        <h3 id="footer-text">&copy; 2021 Created Under GenC Training Programme</h3>
-    </footer>
+
+    <script>
+        function redirectToPage(page) {
+            window.location.href = page;
+        }
+    </script>
 </body>
 </html>

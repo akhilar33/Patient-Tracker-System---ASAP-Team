@@ -44,21 +44,35 @@ class DoctorLoginDAO:
         #return the df
         print(df)
 
+    def doctorValidation(self,username, password):
+        try: 
+            select_query = f"SELECT * FROM DoctorLogin WHERE username = %s AND password = %s"
+            self.cursor.execute(select_query, (username, password))
+            result = self.cursor.fetchone()
+            if result:
+                return True 
+            else: 
+                return False
+        except Exception as e:
+            print(f"Error: {e}")
+            #return e
+
+
 
 
 if __name__ == "__main__":
     # Data for the new patient
-    doctors_data = [
-    {'DoctorID': 1, 'Username': 'DrSmith', 'Password': 'DrSmithPass1'},
-    {'DoctorID': 2, 'Username': 'DrJohnson', 'Password': 'Doctor123#'},
-    {'DoctorID': 3, 'Username': 'DrDavis', 'Password': 'SecureDoc$'},
-]
+#     doctors_data = [
+#     {'doctor_id': 1, 'username': 'DrSmith', 'password': 'DrSmithPass1'},
+#     {'doctor_id': 2, 'username': 'DrJohnson', 'password': 'Doctor123#'},
+#     {'doctor_id': 3, 'username': 'DrDavis', 'password': 'SecureDoc$'},
+# ]
 
-# Create a DataFrame from the doctor data
-    doctors_df = pd.DataFrame(doctors_data)
+# # Create a DataFrame from the doctor data
+#     doctors_df = pd.DataFrame(doctors_data)
 
 # Create a DoctorLoginDAO object
     doctor_login_dao = DoctorLoginDAO()
 
 # Insert the doctor data into the database
-    doctor_login_dao.insert_doctor_data(doctors_df) 
+    doctor_login_dao.doctorValidation('DrSmith','DrSmithPass1') 
