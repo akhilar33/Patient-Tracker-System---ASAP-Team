@@ -17,7 +17,7 @@ select * from patient
 
 --
 @block 
-SELECT PatientID FROM Patient WHERE FirstName = "John" AND LastName = "Doe"
+SELECT PatientID FROM Patient WHERE FirstName = "John" AND LastName = "Doe" AND Mobile = '1234567890'
 
 --
 @block

@@ -12,7 +12,7 @@ $(document).ready(function() {
         // Send the AJAX request
         $.ajax({
             type: 'POST',
-            url: '/login',
+            url: '/paitent_login',
             data: formData,
             dataType: 'json',
             encode: true,

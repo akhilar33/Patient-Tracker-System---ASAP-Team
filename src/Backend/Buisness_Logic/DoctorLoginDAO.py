@@ -56,6 +56,11 @@ class DoctorLoginDAO:
         except Exception as e:
             print(f"Error: {e}")
             #return e
+    def getDoctorID(self, username):
+        query = f"SELECT DoctorID FROM DoctorLogin WHERE username = %s"
+        self.cursor.execute(query, (username,))
+        id = self.cursor.fetchone()
+        return id 
 
 
 
@@ -75,4 +80,4 @@ if __name__ == "__main__":
     doctor_login_dao = DoctorLoginDAO()
 
 # Insert the doctor data into the database
-    doctor_login_dao.doctorValidation('DrSmith','DrSmithPass1') 
+    print(doctor_login_dao.getDoctorID('DrSmith'))
