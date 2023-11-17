@@ -8,6 +8,7 @@
     {% if medical_data.empty %}
         <p>No medical records available.</p>
     {% else %}
+    <p id="patientId" data-patient-id="{{ medical_data.iat[0, 3] }} " style="display: none;">Patient ID: {{ medical_data.iat[0, 3] }}</p>
         <table id="medical-table">
             <!-- Table headers -->
             <thead>
@@ -19,19 +20,18 @@
             </thead>
             <!-- Table body -->
             <tbody>
-                {% for record in medical_data.values %}
+                {% for index, row in medical_data.iterrows() %}
                     <tr>
-                        <td>{{ record[0] }}</td>
-                        <td>{{ record[1] }}</td>
-                        <td>{{ record[2] }}</td>
+                        <td>{{ row['Date_of_Visit'] }}</td>
+                        <td>{{ row['Medical_Condition'] }}</td>
+                        <td>{{ row['Medication_Prescribed'] }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% endif %}
+    <button id="addMedicalRecordsBtn">Add Medical Records</button>
+        <script src="{{ url_for('static', filename='scripts/medical_records_doctor.js') }}"></script>
 
-    <script>
-        // Optionally, you can use JavaScript to further manipulate or enhance the UI
-    </script>
 </body>
 </html>

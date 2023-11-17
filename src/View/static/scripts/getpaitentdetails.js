@@ -8,11 +8,20 @@ function getPatientRecords() {
 
     // Use fetch or another method to send the data to the server
     fetch(url + `?firstName=${firstName}&lastName=${lastName}&mobileNumber=${mobileNumber}`)
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Patient not found: ${response.statusText}`);
+        }
+        return response.json();
+    })
     .then(data => {
         // Redirect to medical_data.html with the received data
-        window.location.href = `/doctorDashboard/view_Paitent_Records/viewRecords?data=${data}`;
+        window.location.href = `/doctorDashboard/view_Paitent_Records/viewRecords?data=${JSON.stringify(data)}`;
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+        // Handle errors, for example, redirect to a page to add a patient
+        console.error('Error:', error);
+        window.location.href = '/doctorDashboard/add_patient'; // Change '/addPatient' to your actual route
+    });
 }
 

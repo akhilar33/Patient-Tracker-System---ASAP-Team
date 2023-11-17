@@ -2,7 +2,7 @@ import json
 import logging
 import pandas as pd
 from flask import Flask, render_template, redirect, url_for, request, flash
-from flask import jsonify
+from flask import jsonify,abort
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from Buisness_Logic.paitentlogindao2 import PatientLoginDAO
 from Buisness_Logic.DoctorLoginDAO import DoctorLoginDAO
@@ -112,11 +112,21 @@ def getPaitentRecords():
 
         paitent = PaitentDAO()
         patient_id = paitent.getPaitentID(first_name,last_name,mobile_number)
+        if not patient_id:
+            abort(404)
         medicalHistory = medicalHistoryDAO()
         medical_data = medicalHistory.getMedicalData(patient_id[0])
-        medical_data = medical_data.to_dict(orient='records')
         print(medical_data)
+        medical_data = medical_data.to_dict(orient='records')
         return medical_data
+    
+@app.route('/doctorDashboard/add_patient',methods=['POST' , 'GET'])
+@login_required
+def addPatientPage():
+    # Add logic to render a page for adding a new patient
+    return render_template('patient_not_found.html')
+
+
 
 
 @app.route('/doctorDashboard/view_Paitent_Records/viewRecords' , methods=['POST' , 'GET'])
@@ -126,7 +136,34 @@ def viewRecords():
     medical_data = json.loads(patient_records)
     df = pd.DataFrame(medical_data)
     print(df)
-    return render_template('medical_records.html', medical_data=df)
+    return render_template('medical_records_doctor.html', medical_data=df)
+
+@app.route('/doctorDashboard/addMedicalRecords', methods=['GET', 'POST'])
+@login_required
+def addMedicalRecords():
+    patient_id = request.args.get('patient_id')
+
+    return render_template('add_medical_records.html', patient_id=patient_id)
+
+@app.route('/submitMedicalRecords', methods=['POST'])
+@login_required
+def submitMedicalRecords():
+    # Retrieve form data from the request
+    patient_id = int(request.form.get('patient_id'))
+    date = request.form.get('date_of_visit')
+    medical_condition = request.form.get('medical_condition')
+    medication_prescribed = request.form.get('medication_prescribed')
+    medical_data = {
+        'PatientID': [patient_id],
+        'Date_of_Visit': [date],
+        'Medical_Condition': [medical_condition],
+        'Medication_Prescribed': [medication_prescribed]}
+    medical_history = medicalHistoryDAO()
+    medical_history.insert_medical_data(pd.DataFrame(medical_data))
+    data = medical_history.getMedicalData(patient_id)
+    print(data)
+    
+    return render_template('medical_records_doctor.html', medical_data=data)
 
 
 
@@ -152,4 +189,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True , port=8000)
+    app.run(debug=True )
