@@ -5,10 +5,10 @@
 </head>
 <body>
     <h1>Medical Records</h1>
+    <p id="patientId" data-patient-id="{{ medical_data.iat[0, 3] }} " style="display: none;">Patient ID: {{ medical_data.iat[0, 3] }}</p>
     {% if medical_data.empty %}
         <p>No medical records available.</p>
     {% else %}
-    <p id="patientId" data-patient-id="{{ medical_data.iat[0, 3] }} " style="display: none;">Patient ID: {{ medical_data.iat[0, 3] }}</p>
         <table id="medical-table">
             <!-- Table headers -->
             <thead>
