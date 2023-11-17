@@ -116,15 +116,13 @@ def getPaitentRecords():
             abort(404)
         medicalHistory = medicalHistoryDAO()
         medical_data = medicalHistory.getMedicalData(patient_id[0])
-        print(medical_data)
         medical_data = medical_data.to_dict(orient='records')
         return medical_data
     
 @app.route('/doctorDashboard/add_patient',methods=['POST' , 'GET'])
 @login_required
 def addPatientPage():
-    # Add logic to render a page for adding a new patient
-    return render_template('patient_not_found.html')
+    return render_template('add_paitent.html')
 
 
 
