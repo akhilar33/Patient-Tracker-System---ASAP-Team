@@ -61,7 +61,7 @@ class  PaitentDAO:
     def getPaitentID(self, first_name, last_name, mobile):
         try: 
             query = f"SELECT PatientID FROM Patient WHERE FirstName = %s AND LastName = %s AND Mobile = %s"
-            self.cursor.execute(query, ( first_name,last_name,mobile,) )
+            self.cursor.execute(query, (first_name,last_name,mobile,) )
             id = self.cursor.fetchone()
             return id 
         except Exception as e:
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     patient_data = pd.DataFrame(data)
 
 # Insert the patient data into the patient table
-    print(patient_dao.getPaitentID('John', 'Doe', '1234567890'))
+    print(patient_dao.getPaitentID('Dodda', 'Reddy', '+918886242222'))
 
 # The patient data should now be inserted into the database.
 

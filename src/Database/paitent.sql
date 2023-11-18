@@ -22,5 +22,5 @@ SELECT PatientID FROM Patient WHERE FirstName = "John" AND LastName = "Doe" AND 
 --
 @block
 
-
+DELETE FROM Patient WHERE PatientID = 14;
 

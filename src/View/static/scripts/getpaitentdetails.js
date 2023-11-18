@@ -21,7 +21,7 @@ function getPatientRecords() {
     .catch(error => {
         // Handle errors, for example, redirect to a page to add a patient
         console.error('Error:', error);
-        window.location.href = '/doctorDashboard/add_patient'; // Change '/addPatient' to your actual route
+        window.location.href = '/doctorDashboard/addPatient'; // Change '/addPatient' to your actual route
     });
 }
 

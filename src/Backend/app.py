@@ -59,7 +59,8 @@ def paitent_login():
             return redirect(url_for('dashboard'))
         else:
             return jsonify({'status': 'error', 'message': 'Invalid username or password'})
-        
+
+ 
 @app.route('/doctor_login', methods=['POST'])
 def doctor_login():
     if request.method == 'POST':
@@ -74,8 +75,6 @@ def doctor_login():
             return redirect(url_for('doctorDashboard'))
         else:
             return jsonify({'status': 'error', 'message': 'Invalid username or password'})
-
-
 
 
 @app.route('/dashboard')
@@ -119,12 +118,44 @@ def getPaitentRecords():
         medical_data = medical_data.to_dict(orient='records')
         return medical_data
     
-@app.route('/doctorDashboard/add_patient',methods=['POST' , 'GET'])
+
+    
+@app.route('/doctorDashboard/addPatient',methods=['POST' , 'GET'])
 @login_required
-def addPatientPage():
+def addPatient():
+    if request.method == 'POST':
+        # Retrieve form data from the request
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        age = request.form.get('age')
+        gender = request.form.get('gender')
+        blood_group = request.form.get('blood_group')
+        mobile_number = request.form.get('mobile_number')
+        email = request.form.get('email')
+        doctor_id = request.form.get('doctor_id')
+
+        # Perform validation on form data if needed
+        data = {
+        'FirstName': [first_name],
+        'LastName': [last_name],
+        'Mobile': [mobile_number],
+        'Email': [email],
+        'Age': [age],
+        'Gender': [gender],
+        'BloodGroup': [blood_group],
+        'DoctorID': [doctor_id]}
+
+        # Add the patient to the database
+        patient = PaitentDAO()
+        patient.insert_patient_data(pd.DataFrame(data))
+        patient_id = patient.getPaitentID(first_name, last_name,mobile_number )
+        patient_id = patient_id[0]
+        # Redirect to the medical records page or any other desired page
+        return render_template('add_medical_records.html', patient_id=patient_id)
+    
+
+    # Render the add_paitent.html page for GET requests
     return render_template('add_paitent.html')
-
-
 
 
 @app.route('/doctorDashboard/view_Paitent_Records/viewRecords' , methods=['POST' , 'GET'])
@@ -140,7 +171,6 @@ def viewRecords():
 @login_required
 def addMedicalRecords():
     patient_id = request.args.get('patient_id')
-
     return render_template('add_medical_records.html', patient_id=patient_id)
 
 @app.route('/submitMedicalRecords', methods=['POST'])
@@ -159,8 +189,6 @@ def submitMedicalRecords():
     medical_history = medicalHistoryDAO()
     medical_history.insert_medical_data(pd.DataFrame(medical_data))
     data = medical_history.getMedicalData(patient_id)
-    print(data)
-    
     return render_template('medical_records_doctor.html', medical_data=data)
 
 
@@ -187,4 +215,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True )
+    app.run(debug=True, port=5001)
