@@ -8,4 +8,7 @@ CREATE TABLE doctor_login (
 
 --
 @block 
+
 SELECT * FROM DoctorLogin
+
+SELECT * FROM DoctorLogin WHERE username = 'DrSmith' 

@@ -24,6 +24,9 @@ class  medicalHistoryDAO:
     def insert_medical_data(self, data):
         try:
 
+            print(type(data))
+
+
             # Insert the data into the MySQL database table
             data.to_sql(name='medical_history', con=self.engine, if_exists='append', index=False)
             #data is insert
@@ -71,5 +74,9 @@ if __name__ == "__main__":
 #     }
 #     #medical_data = pd.DataFrame(medical_data)
 
-    inserter = medicalHistoryDAO()
+
+
     print(inserter.getMedicalData(6))
+
+    print(inserter.getMedicalData(1))
+
