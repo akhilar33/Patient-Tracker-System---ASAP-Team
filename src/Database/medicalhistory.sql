@@ -26,3 +26,8 @@ VALUES
     (4, '2023-10-02', 'Sinus infection', 'Prescribed antibiotics and nasal spray.'),
     (5, '2023-05-07', 'Back pain', 'Prescribed pain relievers and physical therapy.'),
     (5, '2023-08-31', 'Common cold', 'Recommended rest and hydration.');
+
+
+--
+@block
+drop table medical_history

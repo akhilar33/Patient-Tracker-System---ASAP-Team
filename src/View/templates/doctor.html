@@ -7,6 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Login</title>
 </head>
+
+
+<body>
+    <header id="header-container">
+        <h1>Login as Doctor</h1>
+    </header>
+    <div id="form-container">
+        <form id="doctor_login_form" method="post" action="{{ url_for('doctor_login') }}">
+            <label for="username">UserName:</label>
+            <input type="text" name="username" id="username" placeholder="Unique ID" autocomplete="off" required> <br>
+            <span id="patient-id-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
+            <br>
+            <label for="password"> Password:</label>
+            <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required> <br>
+            <span id="patient-pass-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
+            <br>
+            <a><button type="submit">Login</button></a>
+            <button type="reset" id="reset-btn">Reset Entries</button>
+        </form>
+    
+
 <body>
     <header id="header-container">
         <h2>Login as Doctor</h2>
@@ -24,10 +45,15 @@
             <a><button onclick="validateDoctorLogin()">Login</button></a>
             <button type="reset" id="reset-btn">Reset Entries</button>
         </form>
+
     </div>
     <footer id="footer-container">
         <h3 id="footer-text">&copy; 2021 Created Under GenC Training Programme</h3>
     </footer>
+
+
+
     <script src="/Users/akhilareddy/Patient-Tracker/src/View/scripts/doctorLoginValidation.js"></script>
+
 </body>
 </html>

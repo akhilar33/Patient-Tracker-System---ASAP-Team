@@ -1,0 +1,20 @@
+<!-- add_medical_records.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Head content here -->
+</head>
+<body>
+    <h1>Add Medical Records</h1>
+    <form action="{{ url_for('submitMedicalRecords') }}" method="post">
+        <input type="hidden" name="patient_id" value="{{ patient_id }}">
+        <label for="date_of_visit">Date of Visit:</label>
+        <input type="date" id="date_of_visit" name="date_of_visit" required><br>
+        <label for="medical_condition">Medical Condition:</label>
+        <input type="text" name="medical_condition" required><br>
+        <label for="medication_prescribed">Medication Prescribed:</label>
+        <input type="text" name="medication_prescribed" required><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
