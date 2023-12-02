@@ -76,7 +76,8 @@ if __name__ == "__main__":
 
 
 
-    print(inserter.getMedicalData(6))
+    # print(inserter.getMedicalData(6))
 
-    print(inserter.getMedicalData(1))
+    # print(inserter.getMedicalData(1))
+    obj = medicalHistoryDAO()
 
