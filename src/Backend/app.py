@@ -27,12 +27,6 @@ app = Flask(__name__,
     template_folder="../View/templates",
 )
 
-
-    static_url_path="",
-    static_folder="../View",
-    template_folder="../View/templates",)
-
-
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['DEBUG'] = False
 
