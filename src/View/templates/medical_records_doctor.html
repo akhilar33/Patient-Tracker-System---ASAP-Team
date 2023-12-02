@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Head content here -->
+</head>
+<body>
+    <h1>Medical Records</h1>
+    <p id="patientId" data-patient-id="{{ medical_data.iat[0, medical_data.columns.get_loc('PatientID')] }}" style="display: none;">
+        Patient ID: {{ medical_data.iat[0, medical_data.columns.get_loc('PatientID')] }}
+    </p>
+    {% if medical_data.empty %}
+        <p>No medical records available.</p>
+    {% else %}
+        <table id="medical-table">
+            <!-- Table headers -->
+            <thead>
+                <tr>
+                    <th>Date of Visit</th>
+                    <th>Medical Condition</th>
+                    <th>Medication Prescribed</th>
+                </tr>
+            </thead>
+            <!-- Table body -->
+            <tbody>
+                {% for index, row in medical_data.iterrows() %}
+                    <tr>
+                        <td>{{ row['Date_of_Visit'] }}</td>
+                        <td>{{ row['Medical_Condition'] }}</td>
+                        <td>{{ row['Medication_Prescribed'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <button id="addMedicalRecordsBtn">Add Medical Records</button>
+        <script src="{{ url_for('static', filename='scripts/medical_records_doctor.js') }}"></script>
+
+</body>
+</html>
