@@ -1,0 +1,31 @@
+<!-- view_patient_records.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Patient Records</title>
+</head>
+<body>
+    <h1>Enter Patient Details</h1>
+    <form id="patientForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br>
+
+        <label for="mobileNumber">Mobile Number:</label>
+        <input type="text" id="mobileNumber" name="mobileNumber" required><br>
+
+        <button type="button" onclick="getPatientRecords()">Get Patient Records</button>
+    </form>
+
+    <div id="patientRecordsContainer"></div>
+
+    <script src="{{ url_for('static', filename='scripts/getpaitentdetails.js') }}"></script>
+
+</body>
+</html>
