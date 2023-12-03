@@ -9,6 +9,11 @@ CREATE TABLE doctor_login (
 --
 @block 
 
-SELECT * FROM DoctorLogin
+SELECT * FROM doctor_login;
 
-SELECT * FROM DoctorLogin WHERE username = 'DrSmith' 
+SELECT * FROM doctor_login WHERE username = 'DrSmith' ;
+
+
+--
+@block
+drop table doctor_login

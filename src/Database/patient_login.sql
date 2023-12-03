@@ -11,3 +11,8 @@ CREATE TABLE patient_login (
 --
 @block
 select * from patient_login
+
+
+--
+@block
+drop table patient_login
