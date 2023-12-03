@@ -14,9 +14,6 @@ from Buisness_Logic.DoctorLoginDAO import DoctorLoginDAO
 from Buisness_Logic.medicalHistoryDAO import medicalHistoryDAO
 
 from Buisness_Logic.PaitentDAO import PaitentDAO
-
-
-
 from flask_session import Session
 
 
@@ -66,7 +63,8 @@ def paitent_login():
             login_user(user_obj)
             return redirect(url_for('dashboard'))
         else:
-            return jsonify({'status': 'error', 'message': 'Invalid username or password'})
+            flash('Doctor does not exist. Please sign up.')
+            return redirect(url_for('patient'))
 
 
  
@@ -83,27 +81,63 @@ def doctor_login():
             login_user(user_obj)
             return redirect(url_for('doctorDashboard'))
         else:
-            return jsonify({'status': 'error', 'message': 'Invalid username or password'})
-
-
-
-
-@app.route('/login', methods=[ 'POST'])
-def login():
+            flash('signup unsucessful')
+            return redirect(url_for('doctor'))
+        
+@app.route('/doctor_signup', methods=['GET', 'POST'])
+def doctor_signup():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        # Check patient credentials using the PatientLoginDAO
-        patient_dao = PatientLoginDAO()
-        if patient_dao.paitentValidation(username, password):
-            # Load the user and log them in
-            id = patient_dao.getPaitentID(username)
+        # Retrieve form data from the request
+        username = request.form.get('username')
+        password = request.form.get('password')
+        data = {
+        'username': [username],
+        'password': [password]}
+        doctor_dao = DoctorLoginDAO()
+        doctor_dao.insert_doctor_data(pd.DataFrame(data))
+        id = doctor_dao.getDoctorID(username)
+        if id: 
             user_obj = User(id)
             login_user(user_obj)
+            # Redirect to the doctor dashboard or any other desired page
+            return redirect(url_for('doctorDashboard'))
+        else: 
+            flash('Doctor does not exist. Please sign up.')
+            return redirect(url_for('doctor_signup'))
+
+
+    # Render the doctor_signup.html page for GET requests
+    return render_template('doctor_signup.html')
+
+@app.route('/paitent_signup', methods=['GET', 'POST'])
+def paitent_signup():
+    if request.method == 'POST':
+        # Retrieve form data from the request
+        first_name = request.form.get('first')
+        last_name = request.form.get('last')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        data = {
+        'FirstName': [first_name],
+        'LastName' : [last_name],
+        'Username': [username],
+        'Password': [password]}
+        patient_dao = PatientLoginDAO()
+        patient_dao.insert_patient_data(pd.DataFrame(data))
+        id = patient_dao.getPaitentID(username)
+        if id: 
+            user_obj = User(id)
+            login_user(user_obj)
+            # Redirect to the doctor dashboard or any other desired page
             return redirect(url_for('dashboard'))
-        else:
-            return jsonify({'status': 'error', 'message': 'Invalid username or password'})
+        else: 
+            flash("signup not sucessfull")
+            return redirect(url_for('paitent_signup'))
+
+    # Render the doctor_signup.html page for GET requests
+    return render_template('paitent_signup.html')
+
+
 
 
 @app.route('/dashboard')
@@ -223,16 +257,10 @@ def submitMedicalRecords():
     data = medical_history.getMedicalData(patient_id)
     return render_template('medical_records_doctor.html', medical_data=data)
 
-
-
-
 @app.route('/dashboard/appointment_request')
 @login_required
 def appointment_request():
     return render_template('appointment_request.html')
-
-
-
 
 
 @app.route('/index')
@@ -245,8 +273,6 @@ def index():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
-
 
 
 if __name__ == '__main__':

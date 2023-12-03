@@ -11,3 +11,7 @@ CREATE TABLE patient_login (
 --
 @block
 select * from patient_login
+
+--
+@block
+DELETE FROM patient_login WHERE username = 'arijain';
