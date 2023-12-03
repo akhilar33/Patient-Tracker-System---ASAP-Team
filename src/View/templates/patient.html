@@ -63,6 +63,24 @@
             background-color: #208372;
             color: white;
         }
+        .btn-custom {
+            padding: 10px 25px;
+            font-size: 1em;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            background-image: linear-gradient(145deg, #2ebf91, #a5c6a3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+            margin-right: 20px;
+        }
+        .btn-custom:hover {
+            transform: scale(1.05);
+            background-image: linear-gradient(145deg, #29ab87, #a5c6a3);
+        }
+        .btn-custom:active {
+            transform: scale(0.95);
+        }
     </style>
 </head>
 <body>
@@ -71,8 +89,8 @@
         <form id="doctor_login_form" method="post" action="/patient_login">
             <input type="text" name="username" id="username" placeholder="Unique ID" required>
             <input type="password" name="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-            <button type="reset">Reset Entries</button>
+            <button class="btn btn-custom" type="submit">Login</button>
+            <button class="btn btn-custom" type="reset">Reset Entries</button>
         </form>
     </div>
     <script src="../../View/static/scripts/patientLoginValidation.js"></script>
