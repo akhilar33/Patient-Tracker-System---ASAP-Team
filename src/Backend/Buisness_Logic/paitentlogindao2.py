@@ -29,10 +29,12 @@ class  PatientLoginDAO:
             query = "SELECT PatientID FROM Patient WHERE FirstName = %s AND LastName = %s"
             self.cursor.execute(query, (first_name[0], last_name[0]))
             patient_id = self.cursor.fetchone()
+            
+            self.cursor.fetchall()
 
             if patient_id:
                 # Insert the data into the patient_login table
-                new_df = pd.DataFrame({'PatientID': patient_id[0] , 'Username': data['Username'],'Password': data['Password'], })
+                new_df = pd.DataFrame({'PatientID': patient_id[0] , 'Username': data['Username'],'Password': data['Password'] })
                 new_df.to_sql(name='patient_login', con=self.engine, if_exists='append', index=False)
                 self.connection.commit()
                 print("Data inserted successfully.")
@@ -95,7 +97,12 @@ if __name__ == "__main__":
 
 # Create a DataFrame from the patient data
     patient_dao = PatientLoginDAO()
-    patient_dao.paitentValidation('PatientUser7', 'P@ssw0rd7')
+    data = {
+        'FirstName': ['ARIHANT'],
+        'LastName' : ['JAIN'],
+        'Username': ['arijain'],
+        'Password': ['arijain']}
+    patient_dao.insert_patient_data(pd.DataFrame(data))
 
 
 

@@ -23,14 +23,19 @@
             <span id="patient-pass-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
             <br>
             <a><button type="submit">Login</button></a>
+            <a href="{{ url_for('paitent_signup') }}"><button type="button">Signup</button></a>
             <button type="reset" id="reset-btn">Reset Entries</button>
         </form>
     
     </div>
-    <footer id="footer-container">
-        <h3 id="footer-text">&copy; 2021 Created Under GenC Training Programme</h3>
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="{{ url_for('static', filename='patientLoginValidation.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check for flash messages and display the pop-up
+            const flashMessage = "{{ get_flashed_messages() | join(', ') }}";
+            if (flashMessage) {
+                alert(flashMessage);
+            }
+        });
+    </script>
 </body>
 </html>

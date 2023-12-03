@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Head content here -->
+</head>
+<body>
+    <h1>Doctor Signup</h1>
+    <form action="{{ url_for('doctor_signup') }}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required><br>
+        <!-- Add more fields as needed -->
+        <button type="submit">Signup</button>
+    </form>
+</body>
+</html>
