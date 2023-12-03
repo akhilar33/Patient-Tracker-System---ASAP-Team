@@ -4,26 +4,86 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/indexStyle.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&display=swap" rel="stylesheet">
     <title>Patient Tracker</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #208372;
+            color: #fff;
+        }
+        .navbar {
+            background-color: #208372;
+        }
+        .navbar-brand, .navbar-nav .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        .navbar-light .navbar-nav .nav-link {
+            font-size: 1.2em;
+            margin-right: 20px;
+        }
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: #aaa !important;
+        }
+        .navbar-light {
+            color: white;
+            border-color: rgba(255,255,255,0.1);
+        }
+        .hero-section {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .hero-section h1 {
+            margin-bottom: 20px;
+            font-size: 3em;
+        }
+        .hero-section p {
+            margin-bottom: 40px;
+            font-size: 1.5em;
+        }
+        .btn-custom {
+            padding: 10px 25px;
+            font-size: 1em;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            background-image: linear-gradient(145deg, #2ebf91, #a5c6a3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+            margin-right: 20px;
+        }
+        .btn-custom:hover {
+            transform: scale(1.05);
+            background-image: linear-gradient(145deg, #29ab87, #a5c6a3);
+        }
+        .btn-custom:active {
+            transform: scale(0.95);
+        }
+    </style>
 </head>
 <body>
-    <header id="header-container">
-        <h1 id="header-text">Patient Tracker</h1>
-    </header>
-    <div id="description-container">
-        <p id="description-text">The Patient Tracking Application has been developed with the intent of transforming the entire hospital management tasks
-            into an automated environment, wherein a single person can add, update and retrieve the records of people at multiple levels,
-            be it Doctors, Patients, or even management staff viz. Clerks.
-        </p>
-    </div>
-    <div id="designation-info">
-        <p><h2 id="text-1">Who are you?</h2></p>
-        <div id="designation-container">
-            <a ><button onclick="redirectToPage('doctor')" >Doctor</button></a>
-            <a ><button onclick="redirectToPage('patient')" >Patient</button></a>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">Patient Tracker System</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Help</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="hero-section">
+            <h1>Welcome to Patient Tracker</h1>
+            <p>The Patient Tracking Application has been developed with the intent of transforming the hospital management tasks into an automated environment.</p>
+            <div>
+                <button type="button" class="btn btn-custom" onclick="redirectToPage('doctor')">Doctor</button>
+                <button type="button" class="btn btn-custom" onclick="redirectToPage('patient')">Patient</button>
+            </div>
         </div>
     </div>
 
@@ -32,5 +92,7 @@
             window.location.href = page;
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
