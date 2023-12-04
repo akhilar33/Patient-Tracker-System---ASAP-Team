@@ -60,8 +60,17 @@ class DoctorLoginDAO:
     def getDoctorID(self, username):
         query = f"SELECT DoctorID FROM DoctorLogin WHERE username = %s"
         self.cursor.execute(query, (username,))
-        id = self.cursor.fetchone()
-        return id 
+    
+    # Use try-except to handle the case when fetchone() returns None
+        try:
+            id = self.cursor.fetchone()
+            if id:
+                return id  # Return the first column of the result (DoctorID)
+            else:
+                return None  # Return None if no results were fetched
+        except Exception as e:
+            print(f"Error: {e}")
+
 
 
 

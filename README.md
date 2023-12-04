@@ -16,4 +16,6 @@ By creating a digital ecosystem that centralizes patient data and history, this 
 
 
 # Comments 
-
+- testing database 
+- testing DAO 
+- 
