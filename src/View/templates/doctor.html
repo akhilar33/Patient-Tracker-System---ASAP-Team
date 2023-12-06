@@ -84,17 +84,34 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <header id="header-container">
         <h1>Login as Doctor</h1>
-        <form id="doctor_login_form" method="post" action="/doctor_login">
-            <input type="text" name="username" id="username" placeholder="Unique ID" required>
-            <input type="password" name="password" id="password" placeholder="Password" required>
-            <button class="btn btn-custom" type="submit">Login</button>
-            <button class="btn btn-custom" type="reset">Reset Entries</button>
+    </header>
+    <div id="form-container">
+        <form id="doctor_login_form" method="post" action="{{ url_for('doctor_login') }}">
+            <label for="username">UserName:</label>
+            <input type="text" name="username" id="username" placeholder="Unique ID" autocomplete="off" required> <br>
+            <span id="patient-id-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
+            <br>
+            <label for="password"> Password:</label>
+            <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required> <br>
+            <span id="patient-pass-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
+            <br>
+            <a><button type="submit">Login</button></a>
+            <a href="{{ url_for('doctor_signup') }}"><button type="button">Signup</button></a>
+            <button type="reset" id="reset-btn">Reset Entries</button>
         </form>
+
     </div>
-    <script src="../../View/static/scripts/doctorLoginValidation.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check for flash messages and display the pop-up
+            const flashMessage = "{{ get_flashed_messages() | join(', ') }}";
+            if (flashMessage) {
+                alert(flashMessage);
+            }
+        });
+    </script>
+
 </body>
 </html>
