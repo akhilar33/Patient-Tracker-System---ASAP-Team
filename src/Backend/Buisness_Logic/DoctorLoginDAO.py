@@ -37,12 +37,12 @@ class DoctorLoginDAO:
             print(f"Error: {e}")
 
 
-    def getquery(self , username):
-        query = f"SELECT * FROM DoctorLogin WHERE username = %s"
-        self.cursor.execute(query, (username,))
-        df = pd.DataFrame(self.cursor.fetchall(), columns=[desc[0] for desc in self.cursor.description])
-        #return the df
-        print(df)
+    # def getquery(self , username):
+    #     query = f"SELECT * FROM DoctorLogin WHERE username = %s"
+    #     self.cursor.execute(query, (username,))
+    #     df = pd.DataFrame(self.cursor.fetchall(), columns=[desc[0] for desc in self.cursor.description])
+    #     #return the df
+    #     print(df)
 
     def doctorValidation(self,username, password):
         try: 
