@@ -61,23 +61,22 @@
 </head>
 <body>
     <header id="header-container">
-        <h1>Login as Doctor</h1>
+        <h1>Login as Patient</h1>
     </header>
     <div id="form-container">
-        <form id="doctor_login_form" method="post" action="{{ url_for('doctor_login') }}">
+        <form id="paitent_login_form" method="post" action="{{ url_for('patient_login') }}">
             <label for="username">UserName:</label>
             <input type="text" name="username" id="username" placeholder="Unique ID" autocomplete="off" required> <br>
             <span id="patient-id-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
             <br>
-            <label for="password"> Password:</label>
+            <label for="password">Patient Password:</label>
             <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required> <br>
             <span id="patient-pass-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
             <br>
             <a><button type="submit">Login</button></a>
-            <a href="{{ url_for('doctor_signup') }}"><button type="button">Signup</button></a>
+            <a href="{{ url_for('paitent_signup') }}"><button type="button">Signup</button></a>
             <button type="reset" id="reset-btn">Reset Entries</button>
         </form>
-
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

@@ -50,7 +50,7 @@ def patient():
 def doctor():
     return render_template('doctor.html')
 
-@app.route('/patient_login', methods=['POST'])
+@app.route('/patient_login', methods=['POST', 'GET'])
 def patient_login():
     if request.method == 'POST':
         username = request.form['username']
