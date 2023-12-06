@@ -7,4 +7,9 @@ CREATE TABLE DoctorLogin (
 
 --
 @block 
-Select * from PatientLogin
+Select * from patient_login
+
+
+--
+@block
+drop table DoctorLogin

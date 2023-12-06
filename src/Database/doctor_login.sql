@@ -7,7 +7,3 @@ CREATE TABLE DoctorLogin (
 );
 
 --
-@block 
-
-SELECT * FROM DoctorLogin
-
