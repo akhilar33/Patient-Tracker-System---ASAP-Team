@@ -82,7 +82,6 @@ if __name__ == "__main__":
 
 # Insert the doctor data into the database
 
-    print(doctor_login_dao.getDoctorID('DrSmith'))
 
     doctor_login_dao.doctorValidation('DrSmith','DrSmithPass1') 
 
