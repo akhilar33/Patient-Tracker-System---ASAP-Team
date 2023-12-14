@@ -7,6 +7,7 @@ import sys
 sys.path.insert(0, "../")
 from src.Backend.Buisness_Logic.PaitentDAO import PaitentDAO
 from src.Backend.Buisness_Logic.paitentlogindao2 import PatientLoginDAO 
+from src.Backend.Buisness_Logic.medicalHistoryDAO import medicalHistoryDAO
 
 class TestPaitentDAO(unittest.TestCase):
     @classmethod
@@ -203,6 +204,96 @@ class TestPatientLoginDAO(unittest.TestCase):
 
             # Check the type of the result (assuming it's a DataFrame)
             self.assertIsNone(result)  
+
+class TestMedicalHistoryDAO(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Initialize the medicalHistoryDAO instance for testing
+        cls.medical_history_dao = medicalHistoryDAO()
+
+    def setUp(self):
+        # Reset the state before each test
+        self.medical_history_dao.connection.rollback()
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_insert_medical_data_success(self, mock_to_sql):
+        # Mock data for testing
+        mock_data = pd.DataFrame({
+            'PatientID': [1],
+            'Date': ['2023-01-01'],
+            'Description': ['Medical History Description']
+        })
+
+        # Run the method under test
+        self.medical_history_dao.insert_medical_data(mock_data)
+
+        # Check if 'to_sql' method was called with the expected arguments
+        mock_to_sql.assert_called_once_with(
+            name='medical_history', con=self.medical_history_dao.engine, if_exists='append', index=False
+        )
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_get_medical_data(self, mock_to_sql):
+        # Mock patient_id for testing
+        mock_patient_id = 2
+
+        # Mock data for testing
+        mock_data = pd.DataFrame({
+            'reco_id': [3, 4],
+            'PatientID': [2, 2],
+            'Date_of_Visit': ['2023-03-15', '2023-07-05'],
+            'Medical_Condition': ['Headache and fatigue', 'Allergies'],
+            'Medication_Prescribed': ['Prescribed pain relievers and rest.', 'Prescribed antihistamines.']
+        })
+
+        # Mock the 'execute' method to return medical data
+        with patch.object(self.medical_history_dao.connection, 'cursor') as mock_cursor:
+            mock_cursor.fetchall.return_value = [(3, 2, '2023-03-15', 'Headache and fatigue', 'Prescribed pain relievers and rest.'),
+                                                  (4, 2, '2023-07-05', 'Allergies', 'Prescribed antihistamines.')]
+
+            # Run the method under test
+            result_df = self.medical_history_dao.getMedicalData(mock_patient_id)
+            mock_data['Date_of_Visit'] = pd.to_datetime(mock_data['Date_of_Visit'])
+            result_df['Date_of_Visit'] = pd.to_datetime(result_df['Date_of_Visit'])
+
+            # Check if the method returned the expected DataFrame
+            pd.testing.assert_frame_equal(result_df, mock_data)
+
+
+
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_get_medical_data_error(self, mock_to_sql):
+        medical_columns = ['reco_id', 'PatientID', 'Date_of_Visit', 'Medical_Condition', 'Medication_Prescribed']
+        mock_data = pd.DataFrame(columns=medical_columns)
+        # Mock the 'execute' method to raise an exception
+        with patch.object(self.medical_history_dao.connection, 'cursor') as mock_cursor:
+            mock_cursor.fetchall.side_effect = Exception('Some error occurred.')
+
+            # Run the method under test with a patient ID
+            result_df = self.medical_history_dao.getMedicalData(10)
+
+            # Check if the result is None (indicating an error)
+            pd.testing.assert_frame_equal(result_df, mock_data)
+    
+    @patch('pandas.DataFrame.to_sql')
+    def test_insert_medical_data(self, mock_to_sql):
+        # Mock data for testing
+        mock_data = pd.DataFrame({
+            'PatientID': [1],
+            'Date_of_Visit': ['2023-01-01'],
+            'Medical_Condition': ['Test Condition'],
+            'Medication_Prescribed': ['Test Medication']
+        })
+
+        # Run the method under test
+        self.medical_history_dao.insert_medical_data(mock_data)
+
+        # Check if 'to_sql' method was called with the correct arguments
+        mock_to_sql.assert_called_once_with(
+            name='medical_history', con=self.medical_history_dao.engine,
+            if_exists='append', index=False
+        )
 
 
 if __name__ == '__main__':
