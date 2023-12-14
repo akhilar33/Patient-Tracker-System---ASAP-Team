@@ -12,18 +12,6 @@
             background-color: #208372; 
             color: #fff;
         }
-        .hero-section {
-            text-align: center;
-            padding: 100px 20px;
-        }
-        .hero-section h1 {
-            margin-bottom: 20px;
-            font-size: 3em;
-        }
-        .hero-section p {
-            margin-bottom: 40px;
-            font-size: 1.5em;
-        }
         .btn-custom {
             padding: 10px 25px;
             font-size: 1em;
@@ -42,13 +30,13 @@
         .btn-custom:active {
             transform: scale(0.95);
         }
-        .form-row {
+        .form-style-row {
         display: flex;
         justify-content: space-between;
         margin-bottom: 10px;
         }
 
-        .form-column {
+        .form-style-col {
             display: flex;
             flex-direction: column;
             flex-basis: 48%; 
@@ -81,25 +69,14 @@
             max-width: 800px; 
             margin: 0 auto;
         }
-        .btn-custom {
-            padding: 10px 25px;
-            font-size: 1em;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            background-image: linear-gradient(145deg, #2ebf91, #a5c6a3);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
-            margin-right: 20px;
-        }
     </style>
 </head>
 <body>
     <div id="form-container">
         <h1 class="text-center mb-4">Add Patient</h1> 
         <form action="{{ url_for('addPatient') }}" method="post" class="needs-validation" novalidate>
-            <div class="form-row">
-                <div class="form-column">
+            <div class="form-style-row">
+                <div class="form-style-col">
                     <div class="form-group">
                         <label for="first_name">First Name:</label>
                         <input type="text" id="first_name" name="first_name" required>
@@ -117,7 +94,7 @@
                         <input type="email" id="email" name="email" required>
                     </div>
                 </div>
-                <div class="form-column">
+                <div class="form-style-col">
                     <div class="form-group">
                         <label for="age">Age:</label>
                         <input type="number" id="age" name="age" required>

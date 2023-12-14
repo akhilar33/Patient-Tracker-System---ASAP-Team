@@ -61,7 +61,7 @@
             <p>No medical records available.</p>
         {% else %}
             <table id="medical-table" class="table table-dark table-striped">
-                <!-- Table headers -->
+                <!-- These are Table headers -->
                 <thead>
                     <tr>
                         <th>Date of Visit</th>
@@ -69,7 +69,7 @@
                         <th>Medication Prescribed</th>
                     </tr>
                 </thead>
-                <!-- Table body -->
+                <!-- These give us the Table body -->
                 <tbody>
                     {% for record in medical_data.values %}
                         <tr>
