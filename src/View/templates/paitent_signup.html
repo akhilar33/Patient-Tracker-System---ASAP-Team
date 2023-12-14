@@ -92,14 +92,12 @@
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password" required>
             </div>
-            <!-- Add more fields as needed -->
             <button type="submit" class="btn-custom">Signup</button>
         </form>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Check for flash messages and display the pop-up
             const flashMessage = "{{ get_flashed_messages() | join(', ') }}";
             if (flashMessage) {
                 alert(flashMessage);
