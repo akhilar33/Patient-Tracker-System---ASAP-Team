@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <title>Patient Login</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #208372;
-            color: #fff;
+            color: #111010;
             margin: 0;
             padding: 0;
             height: 100vh; 
@@ -21,38 +22,48 @@
         }
         .login-container {
             background-color: #fff; 
-            padding: 20px;
-            border-radius: 8px;
+            padding: 40px;
+            border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            color: #333; 
+            width: 350px;
+            max-width: 90%; /* Adjust for small screens */
+            margin: auto;
         }
         .login-container h1 {
             text-align: center;
-            font-size: 2em;
-            margin-bottom: 20px;
+            color: #333;
+            margin-bottom: 2rem;
         }
         .login-container form {
             display: flex;
             flex-direction: column;
         }
-        .login-container input[type="text"],
-        .login-container input[type="password"] {
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
+        .login-container label {
+            text-align: left;
+            margin-bottom: .5rem;
+        }
+        .login-container input {
+            padding: 15px;
+            margin-bottom: 1rem;
+            border-radius: 20px;
             border: 1px solid #ddd;
+            font-size: 1rem;
+            width: 100%; /* Ensures input width fits container */
         }
         .btn-custom {
-            padding: 10px 25px;
-            background-color: #208372;
-            color: white;
-            border: none;
+            padding: 15px;
             border-radius: 20px;
+            border: none;
+            background-color: #2ebf91;
+            color: white;
             cursor: pointer;
-            margin: 10px 0;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+            width: 100%; /* Matching the width of input fields */
         }
         .btn-custom:hover {
-            background-color: #186954;
+            background-color: #29ab87;
         }
         .btn-custom:active {
             transform: scale(0.95);
@@ -60,33 +71,20 @@
     </style>
 </head>
 <body>
-    <header id="header-container">
+    <div class="login-container">
         <h1>Login as Patient</h1>
-    </header>
-    <div id="form-container">
-        <form id="paitent_login_form" method="post" action="{{ url_for('patient_login') }}">
-            <label for="username">UserName:</label>
-            <input type="text" name="username" id="username" placeholder="Unique ID" autocomplete="off" required> <br>
-            <span id="patient-id-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
-            <br>
-            <label for="password">Patient Password:</label>
-            <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required> <br>
-            <span id="patient-pass-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
-            <br>
-            <a><button type="submit">Login</button></a>
-            <a href="{{ url_for('paitent_signup') }}"><button type="button">Signup</button></a>
-            <button type="reset" id="reset-btn">Reset Entries</button>
+        <form id="patient_login_form" method="post" action="{{ url_for('patient_login') }}">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="Unique ID" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Patient Password:</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn-custom">Login</button>
+            <button type="reset" class="btn-custom">Reset Entries</button>
         </form>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Check for flash messages and display the pop-up
-            const flashMessage = "{{ get_flashed_messages() | join(', ') }}";
-            if (flashMessage) {
-                alert(flashMessage);
-            }
-        });
-    </script>
-
 </body>
 </html>
