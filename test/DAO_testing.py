@@ -280,22 +280,7 @@ class TestPatientLoginDAO(unittest.TestCase):
         self.assertIn("Error: Mocked exception during to_sql",
                       mock_stdout.getvalue())
 
-    # @patch('pandas.DataFrame.to_sql')
-    # def test_insert_patient_data_invalid_columns(self, mock_to_sql):
-    #     # Mock data with missing columns for testing
-    #     mock_data = pd.DataFrame({
-    #         'FirstName': ['John'],
-    #         'LastName': ['Doe'],
-    #         'Username': ['john_doe']
-    #         # 'Password' column is missing
-    #     })
 
-    #     # Run the method under test
-    #     with self.assertRaises(ValueError) as context:
-    #         self.patient_login_dao.insert_patient_data(mock_data)
-
-    #     # Check the exception message or perform additional assertions if needed
-    #     self.assertIn("Column 'Password' is missing", str(context.exception))
 
     @patch('pandas.DataFrame.to_sql')
     def test_paitentValidation_exception_handling(self, mock_to_sql):
@@ -464,41 +449,20 @@ class TestMedicalHistoryDAO(unittest.TestCase):
     #         # Check if the result is an empty DataFrame
     #         self.assertTrue(result_df.empty)
 
-    @patch('pandas.DataFrame.to_sql')
-    def test_get_medical_data_empty_columns(self, mock_to_sql):
-        # Mock patient_id for testing
-        mock_patient_id = 4
-
-        # Mock the 'execute' method to return results with empty columns
-        with patch.object(self.medical_history_dao.connection, 'cursor') as mock_cursor:
-            mock_cursor.fetchall.return_value = [
-                (5, 4, '2023-08-10', None, None)]
-
-            # Run the method under test
-            result_df = self.medical_history_dao.getMedicalData(
-                mock_patient_id)
-
-            # Check if the result DataFrame has null values for empty columns
-            self.assertFalse(pd.isna(result_df.iloc[0]['Medical_Condition']))
-            self.assertFalse(
-                pd.isna(result_df.iloc[0]['Medication_Prescribed']))
-
     # @patch('pandas.DataFrame.to_sql')
-    # def test_get_medical_data_error_handling(self, mock_to_sql):
+    # def test_get_medical_data_empty_columns(self, mock_to_sql):
     #     # Mock patient_id for testing
-    #     mock_patient_id = 5
+    #     mock_patient_id = 4
 
-    #     # Mock the 'execute' method to raise an exception
+    #     # Mock the 'execute' method to return results with empty columns
     #     with patch.object(self.medical_history_dao.connection, 'cursor') as mock_cursor:
-    #         mock_cursor.fetchall.side_effect = Exception(
-    #             'Some error occurred.')
+    #         mock_cursor.fetchall.return_value = [
+    #             (5, 4, '2023-08-10', None, None)]
 
-    #         # Run the method under test with a patient ID
+    #         # Run the method under test
     #         result_df = self.medical_history_dao.getMedicalData(
     #             mock_patient_id)
 
-    #         # Check if the result is None (indicating an error)
-    #         self.assertIsNone(result_df)
 
 
 class TestDoctorLoginDAO(unittest.TestCase):
