@@ -46,7 +46,7 @@ function validateDoctorLogin() {
     .then(data => {
         if ('success' in data) {
             // Login successful, redirect to another page
-            window.location.href = '/templates/index.html';  // Change to the desired page
+            window.location.href = '/templates/index.html';
         } else {
             // Login failed, display an error message or take appropriate action
             console.error('Login failed');

@@ -19,9 +19,9 @@ function getPatientRecords() {
         window.location.href = `/doctorDashboard/view_Paitent_Records/viewRecords?data=${JSON.stringify(data)}`;
     })
     .catch(error => {
-        // Handle errors, for example, redirect to a page to add a patient
+        // Handle errors and redirect to a page to add a patient
         console.error('Error:', error);
-        window.location.href = '/doctorDashboard/addPatient'; // Change '/addPatient' to your actual route
+        window.location.href = '/doctorDashboard/addPatient';
     });
 }
 
