@@ -33,8 +33,22 @@ Welcome to the Patient Tracker project! This healthcare management system is des
 ## Setup Instructions
 
 1. Clone the repository.
+2. Run ```pip3 install -r requirements.txt.``` This installs all the necessary libraries. 
 2. Run ```./init.sh``` from the root folder of the project. This starts up the flask server and installs the necessary libraries.
-3. Open `http://127.0.0.1:5000/view` on any browser to view the UI.
+3. Open `http://127.0.0.1:5000/` on any browser to view the UI.
+
+## Testing & Analysis 
+Testing is done using Pytest. It is advised to create a virtual enviroment (python venv, conda) to install the packages.
+Preferred version of python - **python3.8**. 
+
+**Statement Coverage**
+1. Run the following script to generate line coverage report: ```./statement_coverage.sh```
+3. The statement coverage is approximalty **92%** 
+
+**Decision Coverage**
+
+2. Run the following script to generate branch coverage report: ```./decision_coverage.sh```
+3. The decision coverage is approximately **93%** 
 
 ## Contribution Guidelines
 We welcome contributions to enhance the functionality and user experience. Please follow these guidelines:
