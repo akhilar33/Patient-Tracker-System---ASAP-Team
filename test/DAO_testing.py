@@ -1,13 +1,15 @@
-import unittest
-from unittest.mock import Mock
-from unittest.mock import patch
-import pandas as pd
-from io import StringIO
 import sys
-sys.path.insert(0, "../")
-from src.Backend.Buisness_Logic.PaitentDAO import PaitentDAO
-from src.Backend.Buisness_Logic.paitentlogindao2 import PatientLoginDAO 
+from src.Backend.Buisness_Logic.paitentlogindao2 import PatientLoginDAO
 from src.Backend.Buisness_Logic.medicalHistoryDAO import medicalHistoryDAO
+from src.Backend.Buisness_Logic.PaitentDAO import PaitentDAO
+from src.Backend.Buisness_Logic.DoctorLoginDAO import DoctorLoginDAO
+from io import StringIO
+import pandas as pd
+from unittest.mock import patch
+from unittest.mock import Mock
+import unittest
+sys.path.insert(0, "../")
+
 
 class TestPaitentDAO(unittest.TestCase):
     @classmethod
@@ -18,6 +20,7 @@ class TestPaitentDAO(unittest.TestCase):
     def setUp(self):
         # Reset the state before each test
         self.patient_dao.connection.rollback()
+
     def test_insert_patient_data(self):
         # Mock data for testing
         mock_data = pd.DataFrame({
@@ -45,15 +48,65 @@ class TestPaitentDAO(unittest.TestCase):
 
         # Mock the 'to_sql' method to raise an exception
         with patch('pandas.DataFrame.to_sql', side_effect=Exception("Mocked exception during to_sql")), \
-             patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+                patch('sys.stdout', new_callable=StringIO) as mock_stdout:
             self.patient_dao.insert_patient_data(mock_data)
 
         # Check the error message or perform additional assertions if needed
-        self.assertIn("Error: Mocked exception during to_sql", mock_stdout.getvalue())
+        self.assertIn("Error: Mocked exception during to_sql",
+                      mock_stdout.getvalue())
 
+    def test_insert_patient_data_empty_dataframe(self):
+        # Test handling an empty DataFrame
+        mock_data = pd.DataFrame()
+        with patch('pandas.DataFrame.to_sql') as mock_to_sql:
+            self.patient_dao.insert_patient_data(mock_data)
+            # Ensure to_sql is not called for an empty DataFrame
+            mock_to_sql.assert_not_called()
 
+    def test_insert_patient_data_invalid_column_names(self):
+        # Test handling DataFrame with invalid column names
+        mock_data = pd.DataFrame({
+            'InvalidColumn': ['John'],
+            'LastName': ['Doe'],
+            'Mobile': ['1234567890']
+        })
+        with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            self.patient_dao.insert_patient_data(mock_data)
+        self.assertIn("Error: Data columns not found in database",
+                      mock_stdout.getvalue())
 
-            
+    def test_getquery_invalid_field(self):
+        # Test handling an invalid field for the getquery method
+        feild = 'InvalidField'
+        patientdata = 'John'
+        result = self.patient_dao.getquery(feild, patientdata)
+        # Ensure that the result is None for an invalid field
+        self.assertIsNone(result)
+
+    def test_updated_invalid_field(self):
+        # Test handling an invalid field for the updated method
+        first_name = 'John'
+        field_to_update = 'InvalidField'
+        new_value = 'Doe'
+        result = self.patient_dao.updated(
+            first_name, field_to_update, new_value)
+        self.assertIn("Error: InvalidField not found in database", result)
+
+    def test_delete_nonexistent_patient(self):
+        # Test handling the deletion of a non-existent patient
+        first_name = 'Nonexistent'
+        result = self.patient_dao.delete(first_name)
+        self.assertIn("Error: Patient not found in database", result)
+
+    def test_getPaitentID_nonexistent_patient(self):
+        # Test handling the retrieval of the ID for a non-existent patient
+        first_name = 'Nonexistent'
+        last_name = 'Person'
+        mobile = '9876543210'
+        result = self.patient_dao.getPaitentID(first_name, last_name, mobile)
+        # Ensure that the result is None for a non-existent patient
+        self.assertIsNone(result)
+
     def test_getquery(self):
         # Mock data for testing
         feild = 'FirstName'
@@ -77,8 +130,9 @@ class TestPaitentDAO(unittest.TestCase):
 
         # Mock the 'execute' and 'commit' methods to avoid actual database update
         with patch.object(self.patient_dao.connection, 'commit'), \
-             patch.object(self.patient_dao.cursor, 'execute') as mock_execute:
-            self.assertIsNone(self.patient_dao.updated(first_name, field_to_update, new_value))
+                patch.object(self.patient_dao.cursor, 'execute') as mock_execute:
+            self.assertIsNone(self.patient_dao.updated(
+                first_name, field_to_update, new_value))
 
             # Check if the 'execute' method was called with the expected arguments
             mock_execute.assert_called_once()
@@ -89,9 +143,9 @@ class TestPaitentDAO(unittest.TestCase):
 
         # Mock the 'execute', 'commit', 'close' methods to avoid actual database deletion
         with patch.object(self.patient_dao.connection, 'commit'), \
-             patch.object(self.patient_dao.cursor, 'execute'), \
-             patch.object(self.patient_dao.cursor, 'close'), \
-             patch.object(self.patient_dao.connection, 'close'):
+                patch.object(self.patient_dao.cursor, 'execute'), \
+                patch.object(self.patient_dao.cursor, 'close'), \
+                patch.object(self.patient_dao.connection, 'close'):
             self.assertIsNone(self.patient_dao.delete(first_name))
 
     def test_getPaitentID(self):
@@ -102,11 +156,11 @@ class TestPaitentDAO(unittest.TestCase):
 
         # Mock the 'execute' and 'fetchone' methods to avoid actual database query
         with patch.object(self.patient_dao.cursor, 'fetchone', return_value=(1,)):
-            result = self.patient_dao.getPaitentID(first_name, last_name, mobile)
+            result = self.patient_dao.getPaitentID(
+                first_name, last_name, mobile)
 
             # Check if the 'execute' method was called with the expected arguments
             self.assertEqual(result, (1,))
-
 
 
 class TestPatientLoginDAO(unittest.TestCase):
@@ -141,7 +195,6 @@ class TestPatientLoginDAO(unittest.TestCase):
             name='patient_login', con=self.patient_login_dao.engine, if_exists='append', index=False
         )
 
-        
     @patch('pandas.DataFrame.to_sql')
     def test_insert_patient_data_no_patient_id(self, mock_to_sql):
         # Mock data for testing
@@ -152,9 +205,10 @@ class TestPatientLoginDAO(unittest.TestCase):
             'Password': ['password123']
         })
         with patch('pandas.DataFrame.to_sql', side_effect=Exception("Mocked exception during to_sql")), \
-             patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+                patch('sys.stdout', new_callable=StringIO) as mock_stdout:
             self.patient_login_dao.insert_patient_data(mock_data)
-        self.assertIn("Error: Mocked exception during to_sql", mock_stdout.getvalue())
+        self.assertIn("Error: Mocked exception during to_sql",
+                      mock_stdout.getvalue())
 
     def test_paitentValidation_valid_credentials(self):
         # Mock the 'execute' method to return a result for valid credentials
@@ -162,7 +216,8 @@ class TestPatientLoginDAO(unittest.TestCase):
             mock_cursor.fetchone.return_value = (1, 'john_doe', 'password123')
 
             # Run the method under test
-            result = self.patient_login_dao.paitentValidation('arijain', 'arijain')
+            result = self.patient_login_dao.paitentValidation(
+                'arijain', 'arijain')
 
             # Check the result
             self.assertTrue(result)
@@ -173,23 +228,23 @@ class TestPatientLoginDAO(unittest.TestCase):
             mock_cursor.fetchone.return_value = None
 
             # Run the method under test
-            result = self.patient_login_dao.paitentValidation('john_doe', 'invalid_password')
+            result = self.patient_login_dao.paitentValidation(
+                'john_doe', 'invalid_password')
 
             # Check the result
             self.assertFalse(result)
-    
+
     def test_getPaitentID(self):
         # Mock data for testing
         username = 'arijain'
 
-
         # Mock the 'execute' and 'fetchone' methods to avoid actual database query
         with patch.object(self.patient_login_dao.cursor, 'fetchone', return_value=(16,)):
-            result = self.patient_login_dao.getPaitentID( username)
+            result = self.patient_login_dao.getPaitentID(username)
 
             # Check if the 'execute' method was called with the expected arguments
             self.assertEqual(result, (16,))
-    
+
     def test_getquery(self):
         # Mock data for testing
         feild = 'username'
@@ -203,7 +258,83 @@ class TestPatientLoginDAO(unittest.TestCase):
             mock_fetchall.assert_called_once()
 
             # Check the type of the result (assuming it's a DataFrame)
-            self.assertIsNone(result)  
+            self.assertIsNone(result)
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_insert_patient_data_exception_handling(self, mock_to_sql):
+        # Mock data for testing
+        mock_data = pd.DataFrame({
+            'FirstName': ['John'],
+            'LastName': ['Doe'],
+            'Username': ['john_doe'],
+            'Password': ['password123']
+        })
+
+        # Mock the 'to_sql' method to raise an exception
+        with patch('pandas.DataFrame.to_sql', side_effect=Exception("Mocked exception during to_sql")), \
+                patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            self.patient_login_dao.insert_patient_data(mock_data)
+
+        # Check the error message or perform additional assertions if needed
+        self.assertIn("Error: Mocked exception during to_sql",
+                      mock_stdout.getvalue())
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_insert_patient_data_invalid_columns(self, mock_to_sql):
+        # Mock data with missing columns for testing
+        mock_data = pd.DataFrame({
+            'FirstName': ['John'],
+            'LastName': ['Doe'],
+            'Username': ['john_doe']
+            # 'Password' column is missing
+        })
+
+        # Run the method under test
+        with self.assertRaises(ValueError) as context:
+            self.patient_login_dao.insert_patient_data(mock_data)
+
+        # Check the exception message or perform additional assertions if needed
+        self.assertIn("Column 'Password' is missing", str(context.exception))
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_paitentValidation_exception_handling(self, mock_to_sql):
+        # Mock the 'execute' method to raise an exception during validation
+        with patch.object(self.patient_login_dao.connection, 'cursor') as mock_cursor:
+            mock_cursor.fetchone.side_effect = Exception(
+                "Mocked exception during validation")
+
+            # Run the method under test
+            result = self.patient_login_dao.paitentValidation(
+                'john_doe', 'password123')
+
+        # Check the result (it should be False due to the exception)
+        self.assertFalse(result)
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_getPaitentID_no_result(self, mock_to_sql):
+        # Mock data for testing
+        username = 'nonexistent_user'
+
+        # Mock the 'execute' and 'fetchone' methods to simulate no result
+        with patch.object(self.patient_login_dao.cursor, 'fetchone', return_value=None):
+            result = self.patient_login_dao.getPaitentID(username)
+
+            # Check if the 'execute' method was called with the expected arguments
+            self.assertIsNone(result)
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_getquery_empty_result(self, mock_to_sql):
+        # Mock data for testing
+        feild = 'username'
+        patientdata = 'nonexistent_user'
+
+        # Mock the 'execute' method to return an empty result
+        with patch.object(self.patient_login_dao.cursor, 'fetchall', return_value=[]):
+            result = self.patient_login_dao.getquery(feild, patientdata)
+
+            # Check if the 'execute' method was called with the expected arguments
+            self.assertIsNone(result)
+
 
 class TestMedicalHistoryDAO(unittest.TestCase):
     @classmethod
@@ -249,33 +380,35 @@ class TestMedicalHistoryDAO(unittest.TestCase):
         # Mock the 'execute' method to return medical data
         with patch.object(self.medical_history_dao.connection, 'cursor') as mock_cursor:
             mock_cursor.fetchall.return_value = [(3, 2, '2023-03-15', 'Headache and fatigue', 'Prescribed pain relievers and rest.'),
-                                                  (4, 2, '2023-07-05', 'Allergies', 'Prescribed antihistamines.')]
+                                                 (4, 2, '2023-07-05', 'Allergies', 'Prescribed antihistamines.')]
 
             # Run the method under test
-            result_df = self.medical_history_dao.getMedicalData(mock_patient_id)
-            mock_data['Date_of_Visit'] = pd.to_datetime(mock_data['Date_of_Visit'])
-            result_df['Date_of_Visit'] = pd.to_datetime(result_df['Date_of_Visit'])
+            result_df = self.medical_history_dao.getMedicalData(
+                mock_patient_id)
+            mock_data['Date_of_Visit'] = pd.to_datetime(
+                mock_data['Date_of_Visit'])
+            result_df['Date_of_Visit'] = pd.to_datetime(
+                result_df['Date_of_Visit'])
 
             # Check if the method returned the expected DataFrame
             pd.testing.assert_frame_equal(result_df, mock_data)
 
-
-
-
     @patch('pandas.DataFrame.to_sql')
     def test_get_medical_data_error(self, mock_to_sql):
-        medical_columns = ['reco_id', 'PatientID', 'Date_of_Visit', 'Medical_Condition', 'Medication_Prescribed']
+        medical_columns = ['reco_id', 'PatientID', 'Date_of_Visit',
+                           'Medical_Condition', 'Medication_Prescribed']
         mock_data = pd.DataFrame(columns=medical_columns)
         # Mock the 'execute' method to raise an exception
         with patch.object(self.medical_history_dao.connection, 'cursor') as mock_cursor:
-            mock_cursor.fetchall.side_effect = Exception('Some error occurred.')
+            mock_cursor.fetchall.side_effect = Exception(
+                'Some error occurred.')
 
             # Run the method under test with a patient ID
             result_df = self.medical_history_dao.getMedicalData(10)
 
             # Check if the result is None (indicating an error)
             pd.testing.assert_frame_equal(result_df, mock_data)
-    
+
     @patch('pandas.DataFrame.to_sql')
     def test_insert_medical_data(self, mock_to_sql):
         # Mock data for testing
@@ -294,6 +427,224 @@ class TestMedicalHistoryDAO(unittest.TestCase):
             name='medical_history', con=self.medical_history_dao.engine,
             if_exists='append', index=False
         )
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_insert_medical_data_exception_handling(self, mock_to_sql):
+        # Mock data for testing
+        mock_data = pd.DataFrame({
+            'PatientID': [1],
+            'Date_of_Visit': ['2023-01-01'],
+            'Medical_Condition': ['Test Condition'],
+            'Medication_Prescribed': ['Test Medication']
+        })
+
+        # Mock the 'to_sql' method to raise an exception
+        with patch('pandas.DataFrame.to_sql', side_effect=Exception("Mocked exception during to_sql")), \
+                patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            self.medical_history_dao.insert_medical_data(mock_data)
+
+        # Check the error message or perform additional assertions if needed
+        self.assertIn("Error: Mocked exception during to_sql",
+                      mock_stdout.getvalue())
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_get_medical_data_no_results(self, mock_to_sql):
+        # Mock patient_id for testing
+        mock_patient_id = 3
+
+        # Mock the 'execute' method to simulate no results
+        with patch.object(self.medical_history_dao.connection, 'cursor') as mock_cursor:
+            mock_cursor.fetchall.return_value = []
+
+            # Run the method under test
+            result_df = self.medical_history_dao.getMedicalData(
+                mock_patient_id)
+
+            # Check if the result is an empty DataFrame
+            self.assertTrue(result_df.empty)
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_get_medical_data_empty_columns(self, mock_to_sql):
+        # Mock patient_id for testing
+        mock_patient_id = 4
+
+        # Mock the 'execute' method to return results with empty columns
+        with patch.object(self.medical_history_dao.connection, 'cursor') as mock_cursor:
+            mock_cursor.fetchall.return_value = [
+                (5, 4, '2023-08-10', None, None)]
+
+            # Run the method under test
+            result_df = self.medical_history_dao.getMedicalData(
+                mock_patient_id)
+
+            # Check if the result DataFrame has null values for empty columns
+            self.assertTrue(pd.isna(result_df.iloc[0]['Medical_Condition']))
+            self.assertTrue(
+                pd.isna(result_df.iloc[0]['Medication_Prescribed']))
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_get_medical_data_error_handling(self, mock_to_sql):
+        # Mock patient_id for testing
+        mock_patient_id = 5
+
+        # Mock the 'execute' method to raise an exception
+        with patch.object(self.medical_history_dao.connection, 'cursor') as mock_cursor:
+            mock_cursor.fetchall.side_effect = Exception(
+                'Some error occurred.')
+
+            # Run the method under test with a patient ID
+            result_df = self.medical_history_dao.getMedicalData(
+                mock_patient_id)
+
+            # Check if the result is None (indicating an error)
+            self.assertIsNone(result_df)
+
+
+class TestDoctorLoginDAO(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Initialize the DoctorLoginDAO instance for testing
+        cls.doctor_login_dao = DoctorLoginDAO()
+
+    def setUp(self):
+        # Reset the state before each test
+        self.doctor_login_dao.connection.rollback()
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_insert_doctor_data_success(self, mock_to_sql):
+        # Mock data for testing
+        mock_data = pd.DataFrame({
+            'DoctorID': [1],
+            'Username': ['DrSmith'],
+            'Password': ['DrSmithPass1']
+        })
+
+        # Mock the 'execute' method to return a DoctorID
+        with patch.object(self.doctor_login_dao.connection, 'cursor') as mock_cursor:
+            mock_cursor.fetchone.return_value = (1,)
+
+            # Run the method under test
+            self.doctor_login_dao.insert_doctor_data(mock_data)
+
+        # Check if 'to_sql' method was called with the expected arguments
+        mock_to_sql.assert_called_once_with(
+            name='DoctorLogin', con=self.doctor_login_dao.engine, if_exists='append', index=False
+        )
+
+    @patch('pandas.DataFrame.to_sql')
+    def test_insert_doctor_data_no_doctor_id(self, mock_to_sql):
+        # Mock data for testing
+        mock_data = pd.DataFrame({
+            'DoctorID': [1],
+            'Username': ['DrSmith'],
+            'Password': ['DrSmithPass1']
+        })
+        with patch('pandas.DataFrame.to_sql', side_effect=Exception("Mocked exception during to_sql")), \
+                patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            self.doctor_login_dao.insert_doctor_data(mock_data)
+        self.assertIn("Error: Mocked exception during to_sql",
+                      mock_stdout.getvalue())
+
+    def test_doctorValidation_valid_credentials(self):
+        # Mock the 'execute' method to return a result for valid credentials
+        with patch.object(self.doctor_login_dao.connection, 'cursor') as mock_cursor:
+            mock_cursor.fetchone.return_value = (1, 'DrSmith', 'DrSmithPass1')
+
+            # Run the method under test
+            result = self.doctor_login_dao.doctorValidation(
+                'DrSmith', 'DrSmithPass1')
+
+            # Check the result
+            self.assertTrue(result)
+
+    def test_doctorValidation_invalid_credentials(self):
+        # Mock the 'execute' method to return None for invalid credentials
+        with patch.object(self.doctor_login_dao.connection, 'cursor') as mock_cursor:
+            mock_cursor.fetchone.return_value = None
+
+            # Run the method under test
+            result = self.doctor_login_dao.doctorValidation(
+                'DrSmith', 'invalid_password')
+
+            # Check the result
+            self.assertFalse(result)
+
+    def test_getDoctorID(self):
+        # Mock data for testing
+        username = 'DrSmith'
+
+        # Mock the 'execute' and 'fetchone' methods to avoid actual database query
+        with patch.object(self.doctor_login_dao.cursor, 'fetchone', return_value=(1,)):
+            result = self.doctor_login_dao.getDoctorID(username)
+
+            # Check if the 'execute' method was called with the expected arguments
+            self.assertEqual(result, (1,))
+
+    def test_getquery(self):
+        # Mock data for testing
+        username = 'DrSmith'
+
+        # Mock the 'execute' method to avoid actual database query
+        with patch.object(self.doctor_login_dao.cursor, 'fetchall') as mock_fetchall:
+            result = self.doctor_login_dao.getquery(username)
+
+            # Check if the 'execute' method was called with the expected arguments
+            mock_fetchall.assert_called_once()
+
+            # Check the type of the result (assuming it's a DataFrame)
+            self.assertIsNone(result)
+
+    def test_insert_doctor_data_exception_handling(self):
+        # Mock data for testing
+        mock_data = pd.DataFrame({
+            'DoctorID': [1],
+            'Username': ['DrSmith'],
+            'Password': ['DrSmithPass1']
+        })
+
+        # Mock the 'to_sql' method to raise an exception
+        with patch('pandas.DataFrame.to_sql', side_effect=Exception("Mocked exception during to_sql")), \
+                patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            self.doctor_login_dao.insert_doctor_data(mock_data)
+
+        # Check the error message or perform additional assertions if needed
+        self.assertIn("Error: Mocked exception during to_sql",
+                      mock_stdout.getvalue())
+
+    def test_doctorValidation_exception_handling(self):
+        # Mock the 'execute' method to raise an exception
+        with patch.object(self.doctor_login_dao.connection, 'cursor') as mock_cursor:
+            mock_cursor.execute.side_effect = Exception(
+                "Mocked exception during execute")
+
+            # Run the method under test
+            result = self.doctor_login_dao.doctorValidation(
+                'DrSmith', 'DrSmithPass1')
+
+            # Check the result
+            self.assertFalse(result)
+
+    def test_getDoctorID_no_result(self):
+        # Mock data for testing
+        username = 'NonExistentDoctor'
+
+        # Mock the 'execute' and 'fetchone' methods to simulate no results
+        with patch.object(self.doctor_login_dao.cursor, 'fetchone', return_value=None):
+            result = self.doctor_login_dao.getDoctorID(username)
+
+            # Check if the 'execute' method was called with the expected arguments
+            self.assertIsNone(result)
+
+    def test_getquery_exception_handling(self):
+        # Mock data for testing
+        username = 'DrSmith'
+
+        # Mock the 'execute' method to raise an exception
+        with patch.object(self.doctor_login_dao.cursor, 'fetchall', side_effect=Exception("Mocked exception during fetchall")):
+            result = self.doctor_login_dao.getquery(username)
+
+            # Check the result
+            self.assertIsNone(result)
 
 
 if __name__ == '__main__':
