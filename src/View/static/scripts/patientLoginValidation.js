@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-    $('#paitent_login_form').submit(function(e) {
+    $('#patient_login_form').submit(function(e) {
         e.preventDefault(); // Prevent the form from submitting in the traditional way
 
         // Collect form data
@@ -13,7 +13,7 @@ $(document).ready(function() {
         $.ajax({
             type: 'POST',
 
-            url: '/paitent_login',
+            url: '/patient_login',
 
             url: '/login',
 

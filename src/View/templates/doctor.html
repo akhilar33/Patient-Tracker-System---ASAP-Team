@@ -1,43 +1,90 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Login</title>
+    <title>Doctor Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #208372;
+            color: #0e0d0d;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            max-width: 90%; /* Adjust for small screens */
+            margin: auto;
+        }
+        .container h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+        .container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .container label {
+            text-align: left;
+            margin-bottom: .5rem;
+        }
+        .container input {
+            padding: 15px;
+            margin-bottom: 1rem;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            width: 100%; /* Ensures input width fits container */
+        }
+        .btn-custom {
+            padding: 15px;
+            border-radius: 20px;
+            border: none;
+            background-color: #2ebf91;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+            width: 100%; 
+        }
+        .btn-custom:hover {
+            background-color: #29ab87;
+        }
+        .btn-custom:active {
+            transform: scale(0.95);
+        }
+    </style>
 </head>
-
-
 <body>
-    <header id="header-container">
+    <div class="container">
         <h1>Login as Doctor</h1>
-    </header>
-    <div id="form-container">
         <form id="doctor_login_form" method="post" action="{{ url_for('doctor_login') }}">
-            <label for="username">UserName:</label>
-            <input type="text" name="username" id="username" placeholder="Unique ID" autocomplete="off" required> <br>
-            <span id="patient-id-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
-            <br>
-            <label for="password"> Password:</label>
-            <input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required> <br>
-            <span id="patient-pass-notif" style="color: #fa0000; font-size: 13px; font-family: 'Manrope', sans-serif; font-style: italic;"></span> <br>
-            <br>
-            <a><button type="submit">Login</button></a>
-            <a href="{{ url_for('doctor_signup') }}"><button type="button">Signup</button></a>
-            <button type="reset" id="reset-btn">Reset Entries</button>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn-custom">Login</button>
+            <button type="reset" class="btn-custom">Reset Entries</button>
         </form>
-
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Check for flash messages and display the pop-up
-            const flashMessage = "{{ get_flashed_messages() | join(', ') }}";
-            if (flashMessage) {
-                alert(flashMessage);
-            }
-        });
-    </script>
-
 </body>
 </html>

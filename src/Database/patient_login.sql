@@ -1,4 +1,4 @@
-CREATE TABLE patient_login (
+CREATE TABLE PatientLogin (
     PatientID INT,
     username VARCHAR(255) NOT NULL ,
     password VARCHAR(255) NOT NULL,
@@ -8,10 +8,8 @@ CREATE TABLE patient_login (
 
 
 
---
+-- 
 @block
 select * from patient_login
 
---
-@block
-DELETE FROM patient_login WHERE username = 'arijain';
+

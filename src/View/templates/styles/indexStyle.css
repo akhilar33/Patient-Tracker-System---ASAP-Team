@@ -1,0 +1,66 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #208372;
+    color: #fff;
+}
+.navbar {
+    background-color: #208372;
+}
+.navbar-brand, .navbar-nav .nav-link {
+    color: #fff !important;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.navbar-light .navbar-nav .nav-link {
+    font-size: 1.2em;
+    margin-right: 20px;
+}
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #aaa !important;
+}
+.navbar-light {
+    color: white;
+    border-color: rgba(255,255,255,0.1);
+}
+.hero-section {
+display: flex;
+justify-content: space-between;
+align-items: center; 
+text-align: left;
+padding: 100px 20px;
+}
+
+.hero-section > div {
+    flex: 1; 
+}
+
+.hero-section img {
+    max-width: 100%; 
+    height: auto; 
+}
+.hero-section h1 {
+    margin-bottom: 20px;
+    font-size: 3em;
+}
+.hero-section p {
+    margin-bottom: 40px;
+    font-size: 1.5em;
+}
+.btn-custom {
+    padding: 10px 25px;
+    font-size: 1em;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    background-image: linear-gradient(145deg, #2ebf91, #a5c6a3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+    margin-right: 20px;
+}
+.btn-custom:hover {
+    transform: scale(1.05);
+    background-image: linear-gradient(145deg, #29ab87, #a5c6a3);
+}
+.btn-custom:active {
+    transform: scale(0.95);
+}

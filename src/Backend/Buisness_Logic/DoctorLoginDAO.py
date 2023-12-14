@@ -29,7 +29,7 @@ class DoctorLoginDAO:
 
             # Insert the data into the MySQL database table
             data.to_sql(name='DoctorLogin', con=self.engine, if_exists='append', index=False)
-            #data is insert
+            #data is inserted
             #possible update could be show a pop up saying that paitent data is sucessfully added. 
 
             print("Data inserted successfully.")
@@ -91,7 +91,6 @@ if __name__ == "__main__":
 
 # Insert the doctor data into the database
 
-    print(doctor_login_dao.getDoctorID('DrSmith'))
 
     doctor_login_dao.doctorValidation('DrSmith','DrSmithPass1') 
 

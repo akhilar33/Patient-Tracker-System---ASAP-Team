@@ -5,15 +5,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #208372; 
+            color: #fff;
+        }
+        .btn-custom {
+            padding: 10px 25px;
+            font-size: 1em;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            background-image: linear-gradient(145deg, #2ebf91, #a5c6a3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+            margin: 10px 0;
+        }
+        .btn-custom:hover {
+            transform: scale(1.05);
+            background-image: linear-gradient(145deg, #29ab87, #a5c6a3);
+        }
+        .btn-custom:active {
+            transform: scale(0.95);
+        }
+        .container-dash {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .container-dash h1 {
+            margin-bottom: 30px;
+            font-size: 3em;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Paitent Dashboard</h1>
-    <a href="{{ url_for('medical_records') }}">View Medical Records</a>
-    <a href="{{ url_for('medical_records') }}">View Medical Records</a>
-    
+    <div class="container-dash">
+        <h1>Patient Dashboard</h1>
+        <a href="{{ url_for('medical_records') }}" class="btn btn-custom">View Medical Records</a>
+    </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

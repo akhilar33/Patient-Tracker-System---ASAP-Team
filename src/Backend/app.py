@@ -28,7 +28,7 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['DEBUG'] = False
 
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+login_manager.login_view = '/login'
 
 class User(UserMixin):
     def __init__(self, user_id):
@@ -50,8 +50,8 @@ def patient():
 def doctor():
     return render_template('doctor.html')
 
-@app.route('/paitent_login', methods=['POST'])
-def paitent_login():
+@app.route('/patient_login', methods=['POST' , 'GET'])
+def patient_login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -65,10 +65,9 @@ def paitent_login():
         else:
             flash('Doctor does not exist. Please sign up.')
             return redirect(url_for('patient'))
-
-
+    return render_template('patient.html')
  
-@app.route('/doctor_login', methods=['POST'])
+@app.route('/doctor_login', methods=['POST' , 'GET'])
 def doctor_login():
     if request.method == 'POST':
         username = request.form['username']
@@ -81,8 +80,9 @@ def doctor_login():
             login_user(user_obj)
             return redirect(url_for('doctorDashboard'))
         else:
-            flash('signup unsucessful')
+            flash('Doctor does not exist. Please sign up.')
             return redirect(url_for('doctor'))
+    return render_template('doctor.html')
         
 @app.route('/doctor_signup', methods=['GET', 'POST'])
 def doctor_signup():
