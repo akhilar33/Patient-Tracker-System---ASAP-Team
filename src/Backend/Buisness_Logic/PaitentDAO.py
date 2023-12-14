@@ -49,6 +49,7 @@ class  PaitentDAO:
             self.connection.commit()
         except Exception as e:
             return f"Error: {e}"
+        
     def delete(self, firstName):
         try: 
             delete_query = "DELETE FROM patient WHERE FIRST_Name = %s"
@@ -74,30 +75,30 @@ class  PaitentDAO:
         
 
 
-if __name__ == "__main__":
-    data = {
-    'FirstName': ['John', 'Alice', 'Bob', 'Eve', 'Michael', 'Sophia', 'David'],
-    'LastName': ['Doe', 'Smith', 'Johnson', 'Adams', 'Brown', 'Wilson', 'Lee'],
-    'Mobile': ['1234567890', '9876543210', '5555555555', '7777777777', '8888888888', '9999999999', '1111111111'],
-    'Email': ['john@example.com', 'alice@example.com', 'bob@example.com', 'eve@example.com', 'michael@example.com', 'sophia@example.com', 'david@example.com'],
-    'Age': [30, 25, 40, 28, 35, 29, 45],
-    'Gender': ['Male', 'Female', 'Male', 'Female', 'Male', 'Female', 'Male'],
-    'BloodGroup': ['A+', 'B-', 'O+', 'AB+', 'A-', 'B+', 'O-'],
-    'DoctorID': [1, 2, 1, 3, 2, 2, 3]
-    }
+# if __name__ == "__main__":
+#     data = {
+#     'FirstName': ['John', 'Alice', 'Bob', 'Eve', 'Michael', 'Sophia', 'David'],
+#     'LastName': ['Doe', 'Smith', 'Johnson', 'Adams', 'Brown', 'Wilson', 'Lee'],
+#     'Mobile': ['1234567890', '9876543210', '5555555555', '7777777777', '8888888888', '9999999999', '1111111111'],
+#     'Email': ['john@example.com', 'alice@example.com', 'bob@example.com', 'eve@example.com', 'michael@example.com', 'sophia@example.com', 'david@example.com'],
+#     'Age': [30, 25, 40, 28, 35, 29, 45],
+#     'Gender': ['Male', 'Female', 'Male', 'Female', 'Male', 'Female', 'Male'],
+#     'BloodGroup': ['A+', 'B-', 'O+', 'AB+', 'A-', 'B+', 'O-'],
+#     'DoctorID': [1, 2, 1, 3, 2, 2, 3]
+#     }
 
-# Create an instance of the PaitentDAO class
-    patient_dao = PaitentDAO()
+# # Create an instance of the PaitentDAO class
+#     patient_dao = PaitentDAO()
 
-# Convert the data into a DataFrame
-    patient_data = pd.DataFrame(data)
+# # Convert the data into a DataFrame
+#     patient_data = pd.DataFrame(data)
 
-# Insert the patient data into the patient table
+# # Insert the patient data into the patient table
 
-    print(patient_dao.getPaitentID('Dodda', 'Reddy', '+918886242222'))
+#     print(patient_dao.getPaitentID('Dodda', 'Reddy', '+918886242222'))
 
-    patient_dao.insert_patient_data(patient_data)
+#     patient_dao.insert_patient_data(patient_data)
 
 
-# The patient data should now be inserted into the database.
+# # The patient data should now be inserted into the database.
 

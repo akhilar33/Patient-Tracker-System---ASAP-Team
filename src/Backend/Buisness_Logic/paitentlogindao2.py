@@ -59,15 +59,16 @@ class  PatientLoginDAO:
             self.connection.commit()
         except Exception as e:
             return f"Error: {e}"
-    def delete(self, firstName):
-        try: 
-            delete_query = f"SELECT * FROM patient_login WHERE FIRST_Name = %s"
-            self.cursor.execute(delete_query, (firstName,))
-            self.connection.commit()
-            self.cursor.close()
-            self.connection.close()
-        except Exception as e:
-            return f"Error: {e}"
+        
+    # def delete(self, firstName):
+    #     try: 
+    #         delete_query = f"SELECT * FROM patient_login WHERE FIRST_Name = %s"
+    #         self.cursor.execute(delete_query, (firstName,))
+    #         self.connection.commit()
+    #         self.cursor.close()
+    #         self.connection.close()
+    #     except Exception as e:
+    #         return f"Error: {e}"
     
     def paitentValidation(self,username, password):
         try: 
@@ -81,6 +82,7 @@ class  PatientLoginDAO:
         except Exception as e:
             print(f"Error: {e}")
             return e
+        
     def getPaitentID(self, username):
         query = f"SELECT PatientID FROM patient_login WHERE username = %s"
         self.cursor.execute(query, (username,))
@@ -92,17 +94,17 @@ class  PatientLoginDAO:
         
 
 
-if __name__ == "__main__":
-    # Data for the new patients
+# if __name__ == "__main__":
+#     # Data for the new patients
 
-# Create a DataFrame from the patient data
-    patient_dao = PatientLoginDAO()
-    data = {
-        'FirstName': ['ARIHANT'],
-        'LastName' : ['JAIN'],
-        'Username': ['arijain'],
-        'Password': ['arijain']}
-    patient_dao.insert_patient_data(pd.DataFrame(data))
+# # Create a DataFrame from the patient data
+#     patient_dao = PatientLoginDAO()
+#     data = {
+#         'FirstName': ['ARIHANT'],
+#         'LastName' : ['JAIN'],
+#         'Username': ['arijain'],
+#         'Password': ['arijain']}
+#     patient_dao.insert_patient_data(pd.DataFrame(data))
 
 
 
