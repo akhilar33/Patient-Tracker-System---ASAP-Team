@@ -17,6 +17,26 @@
             padding: 0;
         }
 
+
+        .navbar {
+            background-color: #208372;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        .navbar-light .navbar-nav .nav-link {
+            font-size: 1.2em;
+            margin-right: 20px;
+        }
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: #aaa !important;
+        }
+        .navbar-light {
+            color: white;
+            border-color: rgba(255,255,255,0.1);
+        }
         .btn-custom {
             padding: 10px 25px;
             font-size: 1em;
@@ -70,6 +90,16 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="{{ url_for('home') }}">Patient Tracker System</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="mailto:support@gmail.com?subject=Help Request">Help</a>
+                </li>                
+            </ul>
+        </div>
+    </nav>
 
     <div class="container">
         <h1 class="text-center mb-4">Enter Patient Details</h1>
