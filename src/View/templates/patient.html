@@ -83,8 +83,18 @@
                 <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
             </div>
             <button type="submit" class="btn-custom">Login</button>
+            <a href="{{ url_for('paitent_signup') }}"><button type="button">Signup</button></a>
             <button type="reset" class="btn-custom">Reset Entries</button>
         </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check for flash messages and display the pop-up
+            const flashMessage = "{{ get_flashed_messages() | join(', ') }}";
+            if (flashMessage) {
+                alert(flashMessage);
+            }
+        });
+    </script>
 </body>
 </html>
